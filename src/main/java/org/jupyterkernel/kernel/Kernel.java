@@ -182,6 +182,21 @@ public class Kernel extends Thread {
         return new MessageObject[]{message};
     }
 
+    @SuppressWarnings("unused")
+    public MessageObject[] comm_info_request(MessageObject message) {
+        T_comm_info_request request = (T_comm_info_request) message.msg.content;
+        System.out.println("T_COMM_INFO_REQUEST: " + request.toJSON());
+        T_comm_info_reply reply = new T_comm_info_reply();
+
+
+        reply.comms = new JSONObject();
+
+        System.out.println("T_COMM_INFO_REPLY: " + reply.toJSON());
+        message.msg.content = reply;
+        message.msg.header.msg_type = "comm_info_reply";
+        return new MessageObject[]{message};
+    }
+
     public MessageObject[] kernel_info_request(MessageObject message) {
         // TODO: this is odd. A 'kernel interrupt' in the notebook just leads to a 
         //       kernel_info_request message. 
